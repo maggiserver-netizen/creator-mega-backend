@@ -9,13 +9,16 @@ app.use(cors());
 app.use(express.json());
 
 // 🗄️ โครงสร้างการเชื่อมต่อ Firebase Admin SDK
-const serviceAccount = require("./serviceAccountKey.json");
+// เปลี่ยนจากเดิมที่ require ไฟล์ json เป็นการใช้ตัวแปรลับ
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert(serviceAccount),
         databaseURL: "https://maggi-chat-c12ed-default-rtdb.firebaseio.com"
     });
+}
+        
 }
 
 const db = admin.apps.length ? admin.database() : null;
